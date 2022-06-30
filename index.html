@@ -80,13 +80,9 @@
             processData: false,
             success: function (response) {
               if (response != 0) {
-                $("#img").attr("src", response);
-                $(".preview img").show(); // Display image element
-                alert("good");
-                document.getElementById("src_im").src =
-                  "data:image/png;base64," + response;
+                alert("ok");
               } else {
-                alert("file not uploaded");
+                alert("failed");
               }
             },
           });
