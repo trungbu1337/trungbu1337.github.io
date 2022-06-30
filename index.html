@@ -89,9 +89,10 @@
       // console.log(PrintInfo(document.querySelector("img")))
       $(document).ready(function () {
         $("#mybutton").click(function () {
-            var imag = new Image();
-            imag.src =destinationCanvas.toDataURL();
-          var result = PrintInfo(imag);
+
+          var result = destinationCanvas.toBlob((blob) => {
+            PrintInfo(blob);
+          });
           var data = result.then((data) => {
             // console.log(JSON.stringify(data));
             // console.log(result);
