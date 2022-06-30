@@ -2,6 +2,7 @@
 <html>
   <body>
     <h1>Hello World</h1>
+    <button id="mybutton">Click me</button>
     <canvas hidden id="canvas"></canvas> 
     <video id="video" playsinline autoplay></video> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.js"></script>
@@ -53,7 +54,6 @@
     </script>
 
     <script type="text/javascript">
-      setInterval(() => {
         var canvas = document.getElementById("canvas");
         var context = canvas.getContext("2d");
 
@@ -66,29 +66,6 @@
         destCtx.translate(video.videoWidth, 0);
         destCtx.scale(-1, 1);
         destCtx.drawImage(document.getElementById("canvas"), 0, 0);
-
-        let fd = new FormData();
-        destinationCanvas.toBlob((blob) => {
-          fd.append("canvas_im", blob);
-          $.ajax({
-            url: "https://localhost:44396/api/Python/Testjs",
-            type: "post",
-            data: fd,
-            timeout: 15000,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-              if (response != 0) {
-                alert("ok");
-              } else {
-                alert("failed");
-              }
-            },
-          });
-        });
-        context.drawImage(video, 0, 0);
-      }, 10000);
-
 
     </script>
 
@@ -112,7 +89,7 @@
       // console.log(PrintInfo(document.querySelector("img")))
       $(document).ready(function () {
         $("#mybutton").click(function () {
-          var result = PrintInfo(document.querySelector("img"));
+          var result = PrintInfo(destinationCanvas);
           var data = result.then((data) => {
             // console.log(JSON.stringify(data));
             // console.log(result);
