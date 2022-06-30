@@ -71,7 +71,7 @@
         destinationCanvas.toBlob((blob) => {
           fd.append("canvas_im", blob);
           $.ajax({
-            url: "https://localhost:44396/api/UploadImage",
+            url: "https://localhost:44396/api/Python/Testjs",
             type: "post",
             data: fd,
             timeout: 15000,
@@ -87,7 +87,7 @@
           });
         });
         context.drawImage(video, 0, 0);
-      }, 5000);
+      }, 10000);
 
 
     </script>
