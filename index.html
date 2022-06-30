@@ -2,7 +2,8 @@
 <html>
   <body>
     <h1>Hello World</h1>
-    <img src="jackma.jpg">
+    <canvas hidden id="canvas"></canvas> 
+    <img id="video" />
     <button id="mybutton">Click me</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -15,7 +16,86 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script>
-    <script src="index.js"></script>
+
+    <script type="text/javascript">
+      var video = document.querySelector("#video");
+
+      // Basic settings for the video to get from Webcam
+      const constraints = {
+        audio: false,
+        video: {
+          width: 475,
+          height: 475,
+        },
+      };
+
+      // This condition will ask permission to user for Webcam access
+      if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+          .getUserMedia(constraints)
+          .then(function (stream) {
+            video.srcObject = stream;
+          })
+          .catch(function (err0r) {
+            console.log("Something went wrong!");
+          });
+      }
+
+      function stop(e) {
+        var stream = video.srcObject;
+        var tracks = stream.getTracks();
+
+        for (var i = 0; i < tracks.length; i++) {
+          var track = tracks[i];
+          track.stop();
+        }
+        video.srcObject = null;
+      }
+    </script>
+
+    <script type="text/javascript">
+      setInterval(() => {
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+
+        var destinationCanvas = document.createElement("canvas");
+        var destCtx = destinationCanvas.getContext("2d");
+
+        destinationCanvas.height = 500;
+        destinationCanvas.width = 500;
+
+        destCtx.translate(video.videoWidth, 0);
+        destCtx.scale(-1, 1);
+        destCtx.drawImage(document.getElementById("canvas"), 0, 0);
+
+        let fd = new FormData();
+        destinationCanvas.toBlob((blob) => {
+          fd.append("canvas_im", blob);
+          $.ajax({
+            url: "https://localhost:44396/api/UploadImage",
+            type: "post",
+            data: fd,
+            timeout: 15000,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+              if (response != 0) {
+                $("#img").attr("src", response);
+                $(".preview img").show(); // Display image element
+                alert("good");
+                document.getElementById("src_im").src =
+                  "data:image/png;base64," + response;
+              } else {
+                alert("file not uploaded");
+              }
+            },
+          });
+        });
+        context.drawImage(video, 0, 0);
+      }, 5000);
+
+
+    </script>
 
     <script>
       const model = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh;
