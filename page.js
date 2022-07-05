@@ -10,8 +10,8 @@ const callBtn = document.getElementById("callButton");
 let randomId = Math.random().toString(36).substring(3);
 
 const peer = new Peer(randomId, {
-    host: 'localhost',
-    port: 44396,
+    host: 'online-learning-platform.conveyor.cloud',
+    port: 443,
     //host: 'myurlazurewebsites.net',
     //port: 443,
     path: '/'
