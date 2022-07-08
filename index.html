@@ -25,7 +25,7 @@
     <br />
     <button onclick="shareScreen()">Share Screen</button>
   </body>
-  <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+  <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
 <!--       <script>
       // disable right click
       document.addEventListener("contextmenu", (event) =>
@@ -61,7 +61,7 @@
         var peer = new Peer(randomId, {
           host: "online-learning-platform.conveyor.cloud",
           port: 443,
-          path: "/",
+          path: "/PeerRoute",
         });
         <!-- var peer = new peer(randomid, { -->
           <!-- host: "localhost", -->
